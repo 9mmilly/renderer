@@ -3,9 +3,9 @@ CFLAGS=-Wall -Werror -O3 -march=native $(shell pkg-config --static --cflags glfw
 LIBS=$(shell pkg-config --static --libs glfw3 gl)
 BIN=bin
 
-${BIN}: obj/main.o
+${BIN}: src/main.o
 	${CC} ${CFLAGS} ${LIBS} $^ -o $@ ${LIBS}
 
-obj/main.o: src/main.c
+src/main.o: src/main.c
 	${CC} ${CFLAGS} -c  $^ -o $@ ${LIBS}
 
