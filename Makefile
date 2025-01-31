@@ -3,7 +3,7 @@ CFLAGS=-Wall -Werror -O3 -march=native $(shell pkg-config --static --cflags glfw
 LIBS=$(shell pkg-config --static --libs glfw3 gl)
 BIN=bin
 
-${BIN}: src/main.o src/glad.c
+${BIN}: src/main.o lib/glad.c
 	${CC} ${CFLAGS} ${LIBS} $^ -o $@ ${LIBS}
 
 src/main.o: src/main.c 
