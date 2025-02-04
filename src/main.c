@@ -1,20 +1,6 @@
-#include <glad/glad.h>
+#include "../lib/glad/glad.h"
 #include <GLFW/glfw3.h>
 
-const char *vertexShaderSource =
-    "#version 460 core\n"
-    "layout (location = 0) in vec3 aPos;\n"
-    "void main()\n"
-    "{\n"
-    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-    "}\0";
-
-const char *fragmentShaderSource = "#version 460 core\n"
-    "out vec4 FragColor;\n"
-    "void main()\n"
-    "{\n"
-    "   FragColor = vec4(0.2f, 0.6f, 0.6f, 1.0f);\n"
-    "}\n\0";
 
 int main(void)
 {
@@ -31,6 +17,8 @@ int main(void)
 
     glfwMakeContextCurrent(window);
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
+    /*
 
     //shader objects (vertex and fragment)
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -49,6 +37,8 @@ int main(void)
 
     glDeleteShader(fragmentShader);
     glDeleteShader(vertexShader);
+
+    */
 
     //vertex buffer object creation 
     float positions[6] = {
@@ -70,7 +60,7 @@ int main(void)
     {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glUseProgram(shaderProgram);
+        //glUseProgram(shaderProgram);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
         glfwSwapBuffers(window);
