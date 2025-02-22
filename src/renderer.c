@@ -18,36 +18,14 @@ int main(void)
     glfwMakeContextCurrent(window);
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
-    /*
-
-    //shader objects (vertex and fragment)
-    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
-
-    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-
-    //shader program creation and linking
-    unsigned int shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    glDeleteShader(fragmentShader);
-    glDeleteShader(vertexShader);
-
-    */
-
-    //vertex buffer object creation 
+    //vertex buffer object creation
     float positions[6] = {
         0.0f, 0.5f,
         0.5f, -0.5f,
         -0.5f, -0.5f
     };
 
-    unsigned int vbo;
+    GLuint vbo;
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(vbo), positions, GL_STATIC_DRAW);
