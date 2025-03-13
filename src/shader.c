@@ -2,12 +2,10 @@
 
 static void logfail(GLuint shader, const char *adverb, const char *path) {
     GLint loglen;
-    char* logtext;
+    GLchar logtext[1024];
     glGetShaderInfoLog(shader, 1024, &loglen, logtext);
-    logtext = calloc(1, loglen);
 
     fprintf(stderr, "error %s shader at %s:\n%s", adverb, path, logtext);
-    free(logtext);
     exit(1);
 }
 
@@ -46,11 +44,31 @@ static GLuint compileShader(const char* shaderPath, GLenum shaderType) {
     return shader;
 }
 
-GLuint createShaderProgam(const char* fragPath, const char* vertPath) {
+GLuint createShaderProgam(const char* vertPath, const char* fragPath) {
     GLuint shaderProgram = glCreateProgram();
 
-    // TODO call compile functions and link the shader objects
+    GLuint vertShader = compileShader(vertPath, GL_VERTEX_SHADER);
+    GLuint fragShader = compileShader(fragPath, GL_FRAGMENT_SHADER);
 
+    glAttachShader(shaderProgram, vertShader);
+    glAttachShader(shaderProgram, fragShader);
+    glLinkProgram(shaderProgram);
+
+    GLint linked;
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &linked);
+    if (linked != GL_TRUE)
+    {
+        GLint loglen;
+        GLchar logtext[1024];
+        glGetProgramInfoLog(shaderProgram, 1024, &loglen, logtext);
+
+        fprintf(stderr, "error linking shaders :\n%s", logtext);
+        exit(1);
+    }
     return shaderProgram;
+}
+
+void useShaderProgram(GLuint shaderProgram) {
+    glUseProgram(shaderProgram);    
 }
 

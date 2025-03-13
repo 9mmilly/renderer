@@ -3,19 +3,21 @@ CFLAGS=-Wall -Werror -O3 -march=native $(shell pkg-config --static --cflags glfw
 LDFLAGS=$(shell pkg-config --static --libs glfw3 gl) 
 
 
-SRC=$(wildcard src/*.c)
-OBJ=$(SRC:.c=.o)
+SRC=src
+OBJ=obj
 LIB=lib/glad
 
+SRCS=$(wildcard $(SRC)/*.c)
+OBJS=$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
 LIBS=$(wildcard $(LIB)/*.c)
 
 BIN=bin
 
-$(BIN): $(OBJ) 
+$(BIN): $(OBJS) 
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS) $(LIBS)
 
-*.o: *.c
-	$(CC) -o $@ -c $< $(CFLAGS)
+$(OBJS): $(SRCS) 
+	$(CC) $(CFLAGS) -c  $< -o $@ 
 	 
 clean:
 	$(RM) -r $(OBJ)/* $(BIN)

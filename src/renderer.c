@@ -1,4 +1,5 @@
 #include "../lib/glad/glad.h"
+#include "shader.h"
 #include <GLFW/glfw3.h>
 
 
@@ -32,13 +33,16 @@ int main(void)
 
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, (void*)0);
     glEnableVertexAttribArray(0);
+    
+    GLuint shaderProgram = createShaderProgam("res/shaders/basic.frag", "res/shaders/basic.vert");
 
     //main loop
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        //glUseProgram(shaderProgram);
+        useShaderProgram(shaderProgram);
+
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
         glfwSwapBuffers(window);
