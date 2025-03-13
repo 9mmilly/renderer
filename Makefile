@@ -18,4 +18,4 @@ $(BIN): $(OBJ)
 	$(CC) -o $@ -c $< $(CFLAGS)
 	 
 clean:
-	$(RM) -r $(OBJ)/* $(BIN)
+	$(RM) -r obj/* src/*.o $(BIN)
