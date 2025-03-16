@@ -6,8 +6,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-GLuint createShaderProgam(const char* fragPath, const char* vertpath); 
+struct Shader {
+    GLuint program, vertex, fragment; 
+};
 
-void useShaderProgram(GLuint shaderProgram);
+struct Shader createShader(const char* fragPath, const char* vertpath); 
+
+void useShader(struct Shader self);
 
 #endif // SHADER_H

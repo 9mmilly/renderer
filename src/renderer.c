@@ -34,14 +34,14 @@ int main(void)
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, (void*)0);
     glEnableVertexAttribArray(0);
     
-    GLuint shaderProgram = createShaderProgam("res/shaders/basic.frag", "res/shaders/basic.vert");
+    struct Shader shader = createShader("res/shaders/basic.frag", "res/shaders/basic.vert");
 
     //main loop
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        useShaderProgram(shaderProgram);
+        useShader(shader);
 
         glDrawArrays(GL_TRIANGLES, 0, 3);
 

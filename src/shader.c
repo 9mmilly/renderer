@@ -1,9 +1,9 @@
 #include "shader.h"
 
-static void logfail(GLuint shader, const char *adverb, const char *path) {
+static void logfail(GLuint shaderObject, const char *adverb, const char *path) {
     GLint loglen;
     GLchar logtext[1024];
-    glGetShaderInfoLog(shader, 1024, &loglen, logtext);
+    glGetShaderInfoLog(shaderObject, 1024, &loglen, logtext);
 
     fprintf(stderr, "error %s shader at %s:\n%s", adverb, path, logtext);
     exit(1);
@@ -28,47 +28,47 @@ static GLuint compileShader(const char* shaderPath, GLenum shaderType) {
     fread(shaderSource, len, 1, shaderFile);
     fclose(shaderFile);        
 
-    GLuint shader = glCreateShader(shaderType);
-    glShaderSource(shader, 1, (const GLchar * const *) &shaderSource, (const GLint *) &len);
-    glCompileShader(shader);
+    GLuint shaderObject = glCreateShader(shaderType);
+    glShaderSource(shaderObject, 1, (const GLchar * const *) &shaderSource, (const GLint *) &len);
+    glCompileShader(shaderObject);
 
 
     GLint compiled;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+    glGetShaderiv(shaderObject, GL_COMPILE_STATUS, &compiled);
 
     if (compiled != GL_TRUE) {
-    logfail(shader, "compiling", shaderPath);
+    logfail(shaderObject, "compiling", shaderPath);
     }
 
     free(shaderSource);
-    return shader;
+    return shaderObject;
 }
 
-GLuint createShaderProgam(const char* vertPath, const char* fragPath) {
-    GLuint shaderProgram = glCreateProgram();
+struct Shader createShader(const char* vertPath, const char* fragPath) {
+    struct Shader self;
+     self.program = glCreateProgram();
 
-    GLuint vertShader = compileShader(vertPath, GL_VERTEX_SHADER);
-    GLuint fragShader = compileShader(fragPath, GL_FRAGMENT_SHADER);
+    self.vertex = compileShader(vertPath, GL_VERTEX_SHADER);
+    self.fragment = compileShader(fragPath, GL_FRAGMENT_SHADER);
 
-    glAttachShader(shaderProgram, vertShader);
-    glAttachShader(shaderProgram, fragShader);
-    glLinkProgram(shaderProgram);
+    glAttachShader(self.program, self.vertex);
+    glAttachShader(self.program, self.fragment);
+    glLinkProgram(self.program);
 
     GLint linked;
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &linked);
+    glGetProgramiv(self.program, GL_LINK_STATUS, &linked);
     if (linked != GL_TRUE)
     {
         GLint loglen;
         GLchar logtext[1024];
-        glGetProgramInfoLog(shaderProgram, 1024, &loglen, logtext);
+        glGetProgramInfoLog(self.program, 1024, &loglen, logtext);
 
         fprintf(stderr, "error linking shaders :\n%s", logtext);
         exit(1);
     }
-    return shaderProgram;
+    return self;
 }
 
-void useShaderProgram(GLuint shaderProgram) {
-    glUseProgram(shaderProgram);    
+void useShader(struct Shader self) {
+    glUseProgram(self.program);    
 }
-
