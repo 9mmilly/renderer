@@ -20,21 +20,32 @@ int main(void)
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
     //vertex buffer object creation
-    float positions[6] = {
-        0.0f, 0.5f,
+    float positions[] = {
+        -0.5f, -0.5f,
         0.5f, -0.5f,
-        -0.5f, -0.5f
+        0.5f, 0.5f,
+        -0.5f, 0.5f,
+    };
+
+    GLuint indices[] = {
+        0, 1, 2,
+        2, 3, 0
     };
 
     GLuint vbo;
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(vbo), positions, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, (void*)0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, NULL);
     glEnableVertexAttribArray(0);
     
-    struct Shader shader = createShader("res/shaders/basic.frag", "res/shaders/basic.vert");
+    GLuint ibo;
+    glGenBuffers(1, &ibo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(GLuint), indices, GL_STATIC_DRAW);
+
+    struct Shader shader = createShader("res/shader/basic.vert", "res/shader/basic.frag");
 
     //main loop
     while (!glfwWindowShouldClose(window))
@@ -43,7 +54,7 @@ int main(void)
 
         useShader(shader);
 
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
 
         glfwSwapBuffers(window);
 
