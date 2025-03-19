@@ -72,3 +72,9 @@ struct Shader createShader(const char* vertPath, const char* fragPath) {
 void useShader(struct Shader self) {
     glUseProgram(self.program);    
 }
+
+void deleteShader(struct Shader self) {
+    glDeleteShader(self.vertex);
+    glDeleteShader(self.fragment);
+    glDeleteShader(self.program);
+}

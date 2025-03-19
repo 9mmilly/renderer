@@ -10,8 +10,9 @@ struct Shader {
     GLuint program, vertex, fragment; 
 };
 
-struct Shader createShader(const char* fragPath, const char* vertpath); 
+struct Shader createShader(const char* vertPath, const char* fragPath);
 
 void useShader(struct Shader self);
+void deleteShader(struct Shader self);
 
 #endif // SHADER_H
