@@ -7,12 +7,14 @@
 #include <stdlib.h>
 
 struct Shader {
-    GLuint program, vertex, fragment; 
+    GLuint program;
+    GLuint vertex;
+    GLuint fragment;
 };
 
 struct Shader createShader(const char* vertPath, const char* fragPath);
 
-void useShader(struct Shader self);
-void deleteShader(struct Shader self);
+void useShader(struct Shader *self);
+void deleteShader(struct Shader *self);
 
 #endif // SHADER_H

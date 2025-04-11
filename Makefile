@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-std=c11 -Wall -Werror -O3 -march=native $(shell pkg-config --static --cflags glfw3 gl)
+CFLAGS=-std=c99 -Wall -Werror -O3 -march=native $(shell pkg-config --static --cflags glfw3 gl)
 LDFLAGS=$(shell pkg-config --static --libs glfw3 gl) 
 
 

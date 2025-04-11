@@ -1,6 +1,5 @@
-basic 3D renderer
+## basic 3D renderer
 
-makefile shit
 
 make
 to compile

@@ -6,6 +6,13 @@
 
 #include "../lib/glad/glad.h"
 
-GLuint createTexture(const char *path);
+struct Texture {
+    GLuint handle;
+};
+
+struct Texture createTexture(const char *path);
+
+void useTexture(struct Texture *self);
+void deleteTexture(struct Texture *self);
 
 #endif // TEXTURE_H

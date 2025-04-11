@@ -1,23 +1,23 @@
-#include <stdio.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include "../lib/stb/stb_image.h"
 
 #include "texture.h"
 
-GLuint createTexture(const char *path) {
+struct Texture createTexture(const char *path) {
+
+    struct Texture self;
 
     // creating and binding texture object
-    GLuint texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture); 
+    glGenTextures(1, &self.handle);
+    glBindTexture(GL_TEXTURE_2D, self.handle); 
 
     // setting texture wrapping
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     // setting texture filtering (the minifying filter uses the mipmaps)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     // image data is loaded into memory
     int width, height, numChannels;
@@ -29,6 +29,13 @@ GLuint createTexture(const char *path) {
     glGenerateMipmap(GL_TEXTURE_2D);
 
     stbi_image_free(data);
-    return texture;
+    return self;
 }
 
+void useTexture(struct Texture *self) {
+    glBindTexture(GL_TEXTURE_2D, self->handle);
+};
+
+void deleteTexture(struct Texture *self) {
+   glDeleteTextures(1, &self->handle);
+};
